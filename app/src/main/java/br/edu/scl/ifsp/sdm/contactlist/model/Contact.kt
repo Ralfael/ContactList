@@ -1,0 +1,12 @@
+package br.edu.scl.ifsp.sdm.contactlist.model
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+@Parcelize
+data class Contact(
+    var id: Int? = -1,
+    var name: String = "",
+    var adress: String = "",
+    var phone: String = "",
+    var email: String = ""
+): Parcelable
