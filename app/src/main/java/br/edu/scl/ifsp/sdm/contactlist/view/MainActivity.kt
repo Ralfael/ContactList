@@ -3,19 +3,13 @@ package br.edu.scl.ifsp.sdm.contactlist.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ContextMenu
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.edu.scl.ifsp.sdm.contactlist.R
-import br.edu.scl.ifsp.sdm.contactlist.R.menu.context_menu_main
-import br.edu.scl.ifsp.sdm.contactlist.adapter.ContactAdapter
 import br.edu.scl.ifsp.sdm.contactlist.adapter.ContactRvAdapter
 import br.edu.scl.ifsp.sdm.contactlist.databinding.ActivityMainBinding
 import br.edu.scl.ifsp.sdm.contactlist.model.Constant.EXTRA_CONTACT
@@ -85,32 +79,16 @@ class MainActivity : AppCompatActivity(), OnContactClickListener {
     }
 
 
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        menuInflater.inflate(context_menu_main, menu)
+    override fun onContactEdit(position: Int) {
+        carl.launch(Intent(this, ContactActivity::class.java).apply {
+            putExtra(EXTRA_CONTACT, contactList[position])
+        })
     }
 
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        val position = (item.menuInfo as AdapterView.AdapterContextMenuInfo).position
-
-        return when(item.itemId) {
-            R.id.removeContactMi -> {
-                contactList.removeAt(position)
-                contactAdapter.notifyDataSetChanged()
-                Toast.makeText(this, getString(R.string.contact_removed), Toast.LENGTH_SHORT).show()
-                true
-            }
-            R.id.editContactMi -> {
-                carl.launch(Intent(this, ContactActivity::class.java).apply {
-                    putExtra(EXTRA_CONTACT, contactList[position])
-                })
-                true
-            }
-            else -> { false }
-        }
+    override fun onContactRemove(position: Int) {
+        contactList.removeAt(position)
+        contactAdapter.notifyDataSetChanged()
+        Toast.makeText(this, getString(R.string.contact_removed), Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroy() {

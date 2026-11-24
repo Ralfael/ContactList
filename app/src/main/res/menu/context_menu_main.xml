@@ -4,7 +4,7 @@
         android:id="@+id/removeContactMi"
         android:title="@string/remove_contact" />
     <item
-        id="@+id/editContactMi"
+        android:id="@+id/editContactMi"
         android:title="@string/edit_contact" />
 
 </menu>
